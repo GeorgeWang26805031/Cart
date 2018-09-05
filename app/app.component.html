@@ -1,0 +1,93 @@
+<div fxLayout="column" fxLayoutAlign="space-around center">
+  <mat-card class="cart">
+    <div fxLayout="row">
+      <div fxLayout="column">
+        <form [formGroup]="cart">
+          <div class="cartcell">產品名稱:<input formControlName="prodname" type="text" [(ngModel)]="prodname"></div>
+          <div class="cartcell">產品價格:<input formControlName="prodprice" type="number" [(ngModel)]="prodprice"></div>
+          <div class="cartcell">產品數量:<input formControlName="prodamount" type="number" [(ngModel)]="prodamount"></div>
+        </form>
+
+      </div>
+      <button mat-stroked-button color="accent" (click)="submit()">加入購物車</button>
+    </div>
+    <div *ngIf='prodname' style='background-color: rgb(201, 197, 197);margin-top:12px;width: 100%'>
+      {{prodname}}|${{prodprice}}*{{prodamount}}=${{cart.value.prodamount*cart.value.prodprice}}
+    </div>
+  </mat-card>
+
+
+  <mat-card style="width:80%;">
+    <div fxLayout="row">
+      <h2>購物車清單</h2>
+      <button mat-stroked-button color="accent" style='margin: 12px' (click)="clearAll()">清空購物車</button>
+      <button mat-stroked-button color="accent" style='margin: 12px'(click)="recovery()">復原變更</button>
+    </div>
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="column1">
+        <mat-header-cell  class="tableheader" *matHeaderCellDef>
+          <div>#</div>
+        </mat-header-cell>
+        <mat-cell  *matCellDef='let index=index;'>
+          <div>{{index+1}}</div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="column2" fxLayoutAlign="center center">
+        <mat-header-cell  class="tableheader" *matHeaderCellDef>
+          <div>產品名稱</div>
+        </mat-header-cell>
+        <mat-cell  *matCellDef='let elem;'>
+          <div>{{elem.prodName}}</div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="column3">
+        <mat-header-cell  class="tableheader" *matHeaderCellDef fxLayoutAlign="center center">
+          <div>產品價格</div>
+        </mat-header-cell>
+        <mat-cell  *matCellDef='let elem;' fxLayoutAlign="center center">
+          <div>{{elem.prodPrice}}</div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="column4">
+        <mat-header-cell  class="tableheader" *matHeaderCellDef fxLayoutAlign="center center">
+          <div>購買數量</div>
+        </mat-header-cell>
+        <mat-cell  *matCellDef='let elem;' fxLayoutAlign="center center">
+          <div>{{elem.prodAmount}}</div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="column5">
+        <mat-header-cell  class="tableheader" *matHeaderCellDef fxLayoutAlign="center center">
+          <div>小計</div>
+        </mat-header-cell>
+        <mat-cell  *matCellDef='let elem;' fxLayoutAlign="center center">
+          <div>{{elem.prodTotal}}</div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="column6">
+        <mat-header-cell  class="tableheader" *matHeaderCellDef fxLayoutAlign="center center">
+          <div>刪除</div>
+        </mat-header-cell>
+        <mat-cell   *matCellDef='let index=index;' fxLayoutAlign="center center">
+          <button mat-stroked-button color="accent" (click)="deletedata(index)">
+            <img src="https://png.icons8.com/small/24/000000/delete-sign.png">
+            </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <br>
+    <div fxLayoutAlign="end end">
+      <pre>稅金(5%)  {{0.05*total}}</pre>
+    </div>
+    <div fxLayoutAlign="end end">
+      <pre>總計金額  {{total}}</pre>
+    </div>
+
+
+
+
+  </mat-card>
+  <a style='margin: 24px' href="https://icons8.com">Icon pack by Icons8</a>
+</div>
